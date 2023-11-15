@@ -32,6 +32,19 @@ app.get("/comics", async (req, res) => {
   }
 });
 
+app.get("/comics/:charId", async (req, res) => {
+  try {
+    const charId = req.params.charId;
+
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/comics/${charId}?apiKey=${process.env.MARVEL_API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This route does not exist" });
 });
